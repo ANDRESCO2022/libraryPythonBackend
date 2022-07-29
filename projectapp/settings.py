@@ -38,15 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'book',
-    'user',
+    'users',
+    'shelf',
+    'book_copy',
     'rest_framework',
-    'django_filters'
+    'django_filters',
 ]
 
+AUTH_USER_MODEL = 'users.UserLibrary'
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
