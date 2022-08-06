@@ -7,4 +7,4 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
         model = Book
-        depth = 1
+        depth = 0

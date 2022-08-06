@@ -3,8 +3,6 @@ from safedelete.models import SafeDeleteModel
 
 from shelf.models import Shelf
 
-# from book_copy.models import BookCopy
-
 
 # Create your models here.
 class Category(SafeDeleteModel):
@@ -13,7 +11,7 @@ class Category(SafeDeleteModel):
         ("active", "active"),
         ("inactive", "inactive"),
     ]
-    status = models.CharField(max_length=15, choices=category_status, default="ac")
+    status = models.CharField(max_length=15, choices=category_status, default="active")
 
 
 def __str__(self):
@@ -40,11 +38,10 @@ class Book(SafeDeleteModel):
         ("occupied", "occupied"),
     ]
     status = models.CharField(max_length=15, choices=book_status, default="avalible")
-    # numCopies = models.CharField(max_length=100, null=False)
+
     shelf = models.ForeignKey(Shelf, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    # book_copy = models.ForeignKey(BookCopy,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

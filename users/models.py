@@ -27,7 +27,7 @@ class UserLibrary(AbstractUser):
     username = None
     user_name = False
     email = models.EmailField(_("email address"), unique=True)
-    adress = models.CharField(max_length=120)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 

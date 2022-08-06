@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "core",
+    "drf_yasg",
 ]
 
 AUTH_USER_MODEL = "users.UserLibrary"
