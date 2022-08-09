@@ -7,4 +7,3 @@ class BookCopySerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
         model = BookCopy
-        depth = 1

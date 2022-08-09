@@ -13,18 +13,16 @@ class Category(SafeDeleteModel):
     ]
     status = models.CharField(max_length=15, choices=category_status, default="active")
 
-
-def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name
 
 
 class Author(SafeDeleteModel):
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    date_birth = models.DateField()
+    full_name = models.CharField(max_length=150)
+    nationality = models.CharField(max_length=200)
 
     def __str__(self):
-        return f"{self.first_name,self.last_name}"
+        return self.full_name
 
 
 class Book(SafeDeleteModel):
@@ -35,13 +33,16 @@ class Book(SafeDeleteModel):
     date_puplicate = models.DateField()
     book_status = [
         ("avalible", "avalible"),
-        ("occupied", "occupied"),
+        ("reserved", "reserved"),
     ]
     status = models.CharField(max_length=15, choices=book_status, default="avalible")
-
+    isbn = models.CharField("ISBN", max_length=13, help_text="13")
     shelf = models.ForeignKey(Shelf, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    def full_name(self):
+        return self.Author.get_full_name()
 
     def __str__(self):
         return self.title

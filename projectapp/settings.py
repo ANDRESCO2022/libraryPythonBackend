@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django_filters",
     "core",
     "drf_yasg",
+    "isbn_field",
 ]
 
 AUTH_USER_MODEL = "users.UserLibrary"
