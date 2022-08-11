@@ -27,4 +27,7 @@ class CreateBookSerializer(serializers.ModelSerializer):
         model = Book
 
 
-#      depth = 1
+class ReadBookSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = "__all__"
+        model = Book

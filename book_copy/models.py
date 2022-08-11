@@ -1,6 +1,8 @@
 import uuid
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from safedelete.models import SafeDeleteModel
 
 from book.models import Book
@@ -9,45 +11,25 @@ from users.models import UserLibrary
 
 # Create your models here.
 class BookCopy(SafeDeleteModel):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    uuid = models.UUIDField(default=uuid.uuid4)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-
-    LOAN_STATUS = (
-        ("a", "Available"),
-        ("r", "Reserved"),
+    userBook = models.ForeignKey(
+        UserLibrary, on_delete=models.CASCADE, null=True, blank=True
     )
-
-    status = models.CharField(
-        max_length=1,
-        choices=LOAN_STATUS,
-        blank=True,
-        default="a",
-        help_text="Book availability",
-    )
+    is_rent = models.BooleanField(default=False)
+    is_reserve = models.BooleanField(default=False)
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
+        return self.book.title + f" --- id {self.id}"
 
-        return f"{self.book}"
 
+@receiver(post_save, sender=BookCopy)
+def update_avalible(sender, instance, **kwargs):
+    if not kwargs["created"]:
+        if instance.is_rent:
+            is_available = False
+        else:
+            is_available = True
 
-class BookCopyLybrary(SafeDeleteModel):
-    library = models.ForeignKey(BookCopy, on_delete=models.CASCADE)
-    userBook = models.ForeignKey(UserLibrary, on_delete=models.CASCADE)
-    due_back = models.DateField(max_length=100, null=True, blank=True)
-
-    LOAN_STATUS = (
-        ("a", "Available"),
-        ("r", "Reserved"),
-    )
-
-    status = models.CharField(
-        max_length=1,
-        choices=LOAN_STATUS,
-        blank=True,
-        default="a",
-        help_text="Book availability",
-    )
-
-    def __str__(self):
-
-        return f"{self.book}"
+        BookCopy.objects.filter(pk=instance.id).update(is_available=is_available)

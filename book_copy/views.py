@@ -10,3 +10,9 @@ from .serializers import BookCopySerializer
 class BookCopyViewset(viewsets.ModelViewSet):
     queryset = BookCopy.objects.all()
     serializer_class = BookCopySerializer
+
+    def get_serializer_class(self):
+        if self.action == "create" or self.action == "update":
+            return BookCopySerializer
+        else:
+            return BookCopySerializer

@@ -14,6 +14,7 @@ class IsLibrary(BasePermission):
     """
 
     def has_permission(self, request, view):
+
         return bool(request.user and request.user.is_library)
 
 
@@ -28,7 +29,8 @@ class BookViewSet(viewsets.ModelViewSet):
         "status",
         "category__name",
         "author__full_name",
-        "date_puplicate",
+        "created_at",
+        "updated_at",
         "isbn",
     }
 

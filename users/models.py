@@ -26,9 +26,10 @@ class CustomUserManager(BaseUserManager):
 class UserLibrary(AbstractUser):
     username = None
     user_name = False
+    name = models.CharField(max_length=20)
     email = models.EmailField(_("email address"), unique=True)
     is_library = models.BooleanField(
-        _("staff status"),
+        _("Library"),
         default=False,
         help_text=_("Designates whether the user can log into this admin site."),
     )
@@ -37,8 +38,3 @@ class UserLibrary(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
-
-
-class UserLibraryCopy(models.Model):
-
-    pass
